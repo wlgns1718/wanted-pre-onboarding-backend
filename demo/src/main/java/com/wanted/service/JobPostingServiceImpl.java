@@ -3,6 +3,7 @@ package com.wanted.service;
 
 import com.wanted.dto.CompanyDto;
 import com.wanted.dto.RegistDto;
+import com.wanted.dto.UpdateDto;
 import com.wanted.entity.Company;
 import com.wanted.entity.JobPosting;
 import com.wanted.repository.CompanyRepository;
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-@Transactional @Slf4j
+@Transactional
+@Slf4j
 @RequiredArgsConstructor
 public class JobPostingServiceImpl implements JobPostingService {
 
@@ -38,5 +40,23 @@ public class JobPostingServiceImpl implements JobPostingService {
 
 
         return jobPosting.getJobPostingId();
+    }
+
+    @Override
+    public Long updateJobPosting(UpdateDto updateDto) throws Exception {
+
+        log.info("공고 정보 유효 확인");
+        JobPosting jobPosting = jobPostingRepository.findById(updateDto.getJobPostingId())
+                .orElseThrow(Exception::new);
+
+        log.info("공고 정보 수정");
+        jobPosting.setPosition(updateDto.getPosition());
+        jobPosting.setSkill(updateDto.getSkill());
+        jobPosting.setContent(updateDto.getContent());
+        jobPosting.setCompensation(updateDto.getCompensation());
+        log.info("공고 정보 수정 완료");
+
+        return jobPosting.getJobPostingId();
+
     }
 }

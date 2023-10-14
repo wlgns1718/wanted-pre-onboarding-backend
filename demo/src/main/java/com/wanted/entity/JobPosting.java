@@ -2,6 +2,7 @@ package com.wanted.entity;
 
 
 import com.wanted.dto.RegistDto;
+import com.wanted.dto.UpdateDto;
 import lombok.*;
 
 import javax.persistence.*;
