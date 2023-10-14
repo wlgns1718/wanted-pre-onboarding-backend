@@ -12,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 @Transactional
@@ -66,5 +69,27 @@ public class JobPostingServiceImpl implements JobPostingService {
         log.info("공고 정보 삭제");
         jobPostingRepository.deleteById(jobPostingId);
         log.info("공고 정보 삭제 완료");
+    }
+
+    @Override
+    public List<HashMap<String, Object>> getAllJobPostingList() {
+
+        List<JobPosting> jobPostings = jobPostingRepository.findAll();
+        List<HashMap<String, Object>> list = new ArrayList<>();
+        log.info("전체 공고 불러오기...");
+        for(JobPosting jobPosting : jobPostings){
+            Company company = jobPosting.getCompany();
+            HashMap<String,Object> map = new HashMap<>();
+            map.put("채용공고_id", jobPosting.getJobPostingId());
+            map.put("회사명", company.getName());
+            map.put("국가",company.getNation());
+            map.put("지역",company.getRegion());
+            map.put("채용포지션", jobPosting.getPosition());
+            map.put("채용보상금", jobPosting.getCompensation());
+            map.put("사용기술", jobPosting.getSkill());
+            list.add(map);
+        }
+        log.info("공고 불러오기 성공");
+        return list;
     }
 }

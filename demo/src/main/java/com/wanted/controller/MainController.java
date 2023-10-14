@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/wanted")
@@ -25,14 +27,14 @@ public class MainController {
 
         try{
             log.info(registDto.toString());
-            log.info("미션 등록 서비스 호출");
+            log.info("공고 등록 서비스 호출");
             Long jobPostingId = jobPostingService.registJobPosting(registDto);
-            result.put("msg","정보 등록 완료");
+            result.put("msg","공고 등록 완료");
             result.put("JobPostingId",String.valueOf(jobPostingId));
             return result;
         }catch (Exception e){
             e.getMessage();
-            result.put("msg","내부 서버 오류 발생");
+            result.put("msg","공고 등록 실패");
             result.put("error",e.toString());
             return result;
         }
@@ -44,7 +46,7 @@ public class MainController {
         HashMap<String, String> result = new HashMap<>();
 
         log.info(updateDto.toString());
-        log.info("채용 공고 수정 서비스 호출");
+        log.info("공고 수정 서비스 호출");
         try{
             Long jobPostingId = jobPostingService.updateJobPosting(updateDto);
             result.put("msg","공고 정보 수정 완료");
@@ -52,7 +54,7 @@ public class MainController {
             return result;
         }catch (Exception e){
             e.getMessage();
-            result.put("msg","내부 서버 오류 발생");
+            result.put("msg","공고 정보 수정 실패");
             result.put("error",e.toString());
             return result;
         }
@@ -71,13 +73,30 @@ public class MainController {
             return result;
         }catch (Exception e){
             e.getMessage();
-            result.put("msg","내부 서버 오류 발생");
+            result.put("msg","공고 정보 삭제 실패");
+            result.put("error",e.toString());
+            return result;
+        }
+    }
+
+    @GetMapping(value = "")
+    public HashMap<String,Object> getJobPosting(){
+        HashMap<String,Object> result = new HashMap<>();
+
+        log.info("공고 정보 불러오기");
+
+        try {
+            List<HashMap<String, Object>> jobPostingList = jobPostingService.getAllJobPostingList();
+            result.put("msg","공고 불러오기 성공");
+            result.put("data",jobPostingList);
+            return result;
+        }catch (Exception e){
+            e.getMessage();
+            result.put("msg","공고 불러오기 실패");
             result.put("error",e.toString());
             return result;
         }
 
-
     }
-
 
 }
