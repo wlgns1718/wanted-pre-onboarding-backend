@@ -36,7 +36,7 @@ public class InitService {
         }
     }
     private void jobPostingInit() throws Exception{
-
+        String[] positinos = {"","Django 백엔드 개발자","Django 백엔드 개발자","Java 백엔드 개발자","프론트엔드 개발자"};
         for(Long i = 1L; i < 5; i++){
             Company company = companyRepository.findById(i).orElseThrow(Exception::new);
             JobPosting jobPosting = new JobPosting(i,company,"포지션"+i,
