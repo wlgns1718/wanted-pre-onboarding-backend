@@ -15,9 +15,11 @@ public interface JobPostingService {
 
     Long updateJobPosting(UpdateDto updateDto) throws Exception;
 
-    void deleteJobPosting(Long jobPostingId);
+    void deleteJobPosting(Long jobPostingId) throws Exception;
 
-    List<HashMap<String, Object>> getAllJobPostingList();
+    List<HashMap<String, Object>> getAllJobPostingList()throws Exception;
 
-    List<HashMap<String, Object>> getSearchJobPostings(String searchWord);
+    List<HashMap<String, Object>> getSearchJobPostings(String searchWord)throws Exception;
+
+    HashMap<String, Object> getDetail(Long jobPostingId) throws Exception;
 }

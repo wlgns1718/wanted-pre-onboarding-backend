@@ -11,6 +11,8 @@ import com.wanted.repository.JobPostingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.Tuple;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,7 +67,7 @@ public class JobPostingServiceImpl implements JobPostingService {
     }
 
     @Override
-    public void deleteJobPosting(Long jobPostingId) {
+    public void deleteJobPosting(Long jobPostingId) throws Exception{
 
         log.info("공고 정보 삭제");
         jobPostingRepository.deleteById(jobPostingId);
@@ -73,7 +75,7 @@ public class JobPostingServiceImpl implements JobPostingService {
     }
 
     @Override
-    public List<HashMap<String, Object>> getAllJobPostingList() {
+    public List<HashMap<String, Object>> getAllJobPostingList() throws Exception{
 
         List<JobPosting> jobPostings = jobPostingRepository.findAll();
         List<HashMap<String, Object>> list = new ArrayList<>();
@@ -84,7 +86,7 @@ public class JobPostingServiceImpl implements JobPostingService {
     }
 
     @Override
-    public List<HashMap<String, Object>> getSearchJobPostings(String searchWord) {
+    public List<HashMap<String, Object>> getSearchJobPostings(String searchWord)throws Exception {
 
         log.info("해당 공고 불러오기");
         log.info(searchWord);
@@ -94,6 +96,25 @@ public class JobPostingServiceImpl implements JobPostingService {
         log.info(Arrays.toString(list.toArray()));
         log.info("해당 공고 불러오기 완료");
         return list;
+    }
+
+    @Override
+    public HashMap<String, Object> getDetail(Long jobPostingId) throws Exception{
+        JobPosting jobPosting = jobPostingRepository.findById(jobPostingId)
+                .orElseThrow(Exception::new);
+        Company company = jobPosting.getCompany();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("채용공고_id", jobPosting.getJobPostingId());
+        map.put("회사명", company.getName());
+        map.put("국가",company.getNation());
+        map.put("지역",company.getRegion());
+        map.put("채용포지션", jobPosting.getPosition());
+        map.put("채용보상금", jobPosting.getCompensation());
+        map.put("사용기술", jobPosting.getSkill());
+        map.put("채용내용",jobPosting.getContent());
+        List<Long> otherJobPosting = jobPostingRepository.findByCompany_CompanyId(company.getCompanyId(),jobPosting.getJobPostingId());
+        map.put("회사가올린다른채용공고", otherJobPosting);
+        return map;
     }
 
     private void detailJobPostings(List<JobPosting> jobPostings, List<HashMap<String, Object>> list) {

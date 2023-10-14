@@ -119,6 +119,26 @@ public class MainController {
         }
     }
 
+    @GetMapping(value = "/detail/{jobpostingid}")
+    public HashMap<String,Object> getDetailJobPosting(@PathVariable("jobpostingid") Long jobPostingId){
+
+        HashMap<String,Object> result = new HashMap<>();
+
+        log.info("상세 정보 서비스 호출");
+        try{
+            HashMap<String,Object> jobPostignDetail = jobPostingService.getDetail(jobPostingId);
+            result.put("msg","공고 상제 정보 조회 성공");
+            result.put("data",jobPostignDetail);
+            return result;
+        }catch (Exception e){
+            e.getMessage();
+            result.put("msg","공고 상세 정보 조회 실패");
+            result.put("error",e.toString());
+            return result;
+        }
+
+    }
+
 
 
 }
