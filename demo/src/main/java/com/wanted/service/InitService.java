@@ -39,7 +39,7 @@ public class InitService {
         String[] positinos = {"","Django 백엔드 개발자","Django 백엔드 개발자","Java 백엔드 개발자","프론트엔드 개발자"};
         for(Long i = 1L; i < 5; i++){
             Company company = companyRepository.findById(i).orElseThrow(Exception::new);
-            JobPosting jobPosting = new JobPosting(i,company,"포지션"+i,
+            JobPosting jobPosting = new JobPosting(i,company,positinos[Math.toIntExact(i)d],
                     (int)(i * 1000),"아무나오세요"+i,"java" + i);
             jobPostingRepository.save(jobPosting);
         }
