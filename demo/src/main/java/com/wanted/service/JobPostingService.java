@@ -18,4 +18,6 @@ public interface JobPostingService {
     void deleteJobPosting(Long jobPostingId);
 
     List<HashMap<String, Object>> getAllJobPostingList();
+
+    List<HashMap<String, Object>> getSearchJobPostings(String searchWord);
 }

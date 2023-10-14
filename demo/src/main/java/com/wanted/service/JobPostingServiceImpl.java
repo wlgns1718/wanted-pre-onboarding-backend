@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -77,6 +78,25 @@ public class JobPostingServiceImpl implements JobPostingService {
         List<JobPosting> jobPostings = jobPostingRepository.findAll();
         List<HashMap<String, Object>> list = new ArrayList<>();
         log.info("전체 공고 불러오기...");
+        detailJobPostings(jobPostings, list);
+        log.info("공고 불러오기 성공");
+        return list;
+    }
+
+    @Override
+    public List<HashMap<String, Object>> getSearchJobPostings(String searchWord) {
+
+        log.info("해당 공고 불러오기");
+        log.info(searchWord);
+        List<JobPosting> jobPostings = jobPostingRepository.findByContainingWord(searchWord);
+        List<HashMap<String, Object>> list = new ArrayList<>();
+        detailJobPostings(jobPostings, list);
+        log.info(Arrays.toString(list.toArray()));
+        log.info("해당 공고 불러오기 완료");
+        return list;
+    }
+
+    private void detailJobPostings(List<JobPosting> jobPostings, List<HashMap<String, Object>> list) {
         for(JobPosting jobPosting : jobPostings){
             Company company = jobPosting.getCompany();
             HashMap<String,Object> map = new HashMap<>();
@@ -89,7 +109,5 @@ public class JobPostingServiceImpl implements JobPostingService {
             map.put("사용기술", jobPosting.getSkill());
             list.add(map);
         }
-        log.info("공고 불러오기 성공");
-        return list;
     }
 }

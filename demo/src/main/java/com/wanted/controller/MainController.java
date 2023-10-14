@@ -99,4 +99,26 @@ public class MainController {
 
     }
 
+    @GetMapping(value = "/search")
+    public HashMap<String,Object> searchJobPosting(@RequestParam("search") String searchWord){
+        HashMap<String, Object> result = new HashMap<>();
+
+        log.info("검색할 단어" + searchWord);
+        log.info("공고 검색 서비스 호출");
+        try {
+            List<HashMap<String,Object>> jobPostings = jobPostingService.getSearchJobPostings(searchWord);
+            result.put("msg","공고 검색 성공");
+            result.put("data",jobPostings);
+            return result;
+        }catch (Exception e){
+            e.getMessage();
+            result.put("msg","공고 검색 조회 실패");
+            result.put("error",e.toString());
+            return result;
+
+        }
+    }
+
+
+
 }

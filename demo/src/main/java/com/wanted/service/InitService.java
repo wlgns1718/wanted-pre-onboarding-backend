@@ -29,12 +29,14 @@ public class InitService {
     }
 
     private void companyInit(){
+        String[] names = {"","원티드랩","원티드코리아","네이버","카카오"};
         for(Long i = 1L; i < 5; i++){
-            Company company = new Company(i,"회사"+i, "한국","서울");
+            Company company = new Company(i,names[Math.toIntExact(i)], "한국","서울");
             companyRepository.save(company);
         }
     }
     private void jobPostingInit() throws Exception{
+
         for(Long i = 1L; i < 5; i++){
             Company company = companyRepository.findById(i).orElseThrow(Exception::new);
             JobPosting jobPosting = new JobPosting(i,company,"포지션"+i,
