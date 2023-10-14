@@ -11,4 +11,6 @@ public interface JobPostingService {
     Long registJobPosting(RegistDto registDto) throws Exception;
 
     Long updateJobPosting(UpdateDto updateDto) throws Exception;
+
+    void deleteJobPosting(Long jobPostingId);
 }

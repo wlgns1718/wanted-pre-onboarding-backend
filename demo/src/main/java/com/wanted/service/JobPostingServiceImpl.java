@@ -59,4 +59,12 @@ public class JobPostingServiceImpl implements JobPostingService {
         return jobPosting.getJobPostingId();
 
     }
+
+    @Override
+    public void deleteJobPosting(Long jobPostingId) {
+
+        log.info("공고 정보 삭제");
+        jobPostingRepository.deleteById(jobPostingId);
+        log.info("공고 정보 삭제 완료");
+    }
 }

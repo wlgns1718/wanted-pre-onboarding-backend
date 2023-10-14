@@ -59,5 +59,25 @@ public class MainController {
 
     }
 
+    @DeleteMapping(value = "/{jobpostingid}")
+    public HashMap<String,String> delete(@PathVariable("jobpostingid") Long jobPostingId){
+        HashMap<String,String> result = new HashMap<>();
+
+        log.info(String.valueOf(jobPostingId));
+        log.info("공고 정보 삭제 서비스 호출");
+        try{
+            jobPostingService.deleteJobPosting(jobPostingId);
+            result.put("msg","공고 정보 삭제 완료");
+            return result;
+        }catch (Exception e){
+            e.getMessage();
+            result.put("msg","내부 서버 오류 발생");
+            result.put("error",e.toString());
+            return result;
+        }
+
+
+    }
+
 
 }
