@@ -1,7 +1,7 @@
 package com.wanted.service;
 
 
-import com.wanted.dto.CompanyDto;
+
 import com.wanted.dto.RegistDto;
 import com.wanted.dto.UpdateDto;
 import com.wanted.entity.Company;
@@ -11,9 +11,8 @@ import com.wanted.repository.JobPostingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Tuple;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -74,7 +73,9 @@ public class JobPostingServiceImpl implements JobPostingService {
         log.info("공고 정보 삭제 완료");
     }
 
+
     @Override
+    @Transactional(readOnly = true)
     public List<HashMap<String, Object>> getAllJobPostingList() throws Exception{
 
         List<JobPosting> jobPostings = jobPostingRepository.findAll();
@@ -86,6 +87,7 @@ public class JobPostingServiceImpl implements JobPostingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<HashMap<String, Object>> getSearchJobPostings(String searchWord)throws Exception {
 
         log.info("해당 공고 불러오기");
@@ -99,6 +101,7 @@ public class JobPostingServiceImpl implements JobPostingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public HashMap<String, Object> getDetail(Long jobPostingId) throws Exception{
         JobPosting jobPosting = jobPostingRepository.findById(jobPostingId)
                 .orElseThrow(Exception::new);

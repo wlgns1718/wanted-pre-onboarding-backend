@@ -1,8 +1,10 @@
 package com.wanted.controller;
 
 
+import com.wanted.dto.ApplyDto;
 import com.wanted.dto.RegistDto;
 import com.wanted.dto.UpdateDto;
+import com.wanted.service.ApplyService;
 import com.wanted.service.JobPostingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import java.util.List;
 public class MainController {
 
     private final JobPostingService jobPostingService;
+    private final ApplyService applyService;
 
     @PostMapping(value = "")
     public HashMap<String, String> regist(@RequestBody RegistDto registDto){
@@ -139,6 +142,26 @@ public class MainController {
 
     }
 
+    @PostMapping("/apply")
+    public HashMap<String,Object> apply(@RequestBody ApplyDto applyDto){
+
+        HashMap<String,Object> result = new HashMap<>();
+
+        log.info("지원 정보 등록 서비스 호출");
+
+        try {
+            applyService.applyJobPosting(applyDto);
+            result.put("msg","지원 정보 등록 완료");
+            return result;
+
+        }catch (Exception e){
+            e.getMessage();
+            result.put("msg","지원 정보 등록 실패");
+            result.put("error",e.toString());
+            return result;
+        }
+
+    }
 
 
 }
