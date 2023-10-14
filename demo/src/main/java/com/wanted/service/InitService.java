@@ -1,6 +1,7 @@
 package com.wanted.service;
 
 import com.wanted.entity.Company;
+import com.wanted.entity.JobPosting;
 import com.wanted.repository.CompanyRepository;
 import com.wanted.repository.JobPostingRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +19,27 @@ public class InitService {
     private final CompanyRepository companyRepository;
     @PostConstruct
     public void init(){
-        companyinit();
+        try{
+            companyInit();
+            jobPostingInit();
+        }catch (Exception e){
+            e.getMessage();
+        }
+
     }
 
-    private void companyinit(){
+    private void companyInit(){
         for(Long i = 1L; i < 5; i++){
             Company company = new Company(i,"회사"+i, "한국","서울");
             companyRepository.save(company);
+        }
+    }
+    private void jobPostingInit() throws Exception{
+        for(Long i = 1L; i < 5; i++){
+            Company company = companyRepository.findById(i).orElseThrow(Exception::new);
+            JobPosting jobPosting = new JobPosting(i,company,"포지션"+i,
+                    (int)(i * 1000),"아무나오세요"+i,"java" + i);
+            jobPostingRepository.save(jobPosting);
         }
     }
 
