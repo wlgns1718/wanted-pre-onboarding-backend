@@ -2,15 +2,14 @@ package com.wanted.entity;
 
 
 import com.wanted.dto.ApplyDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
 @Builder @AllArgsConstructor
+@Getter @Setter
 public class Apply {
 
     @Id @Column(name = "APPLY_ID")

@@ -115,7 +115,7 @@ public class JobPostingServiceImpl implements JobPostingService {
         map.put("채용보상금", jobPosting.getCompensation());
         map.put("사용기술", jobPosting.getSkill());
         map.put("채용내용",jobPosting.getContent());
-        List<Long> otherJobPosting = jobPostingRepository.findByCompany_CompanyId(company.getCompanyId(),jobPosting.getJobPostingId());
+        List<Long> otherJobPosting = jobPostingRepository.findByCompany_CompanyIdOtherJobPosting(company.getCompanyId(),jobPosting.getJobPostingId());
         map.put("회사가올린다른채용공고", otherJobPosting);
         return map;
     }

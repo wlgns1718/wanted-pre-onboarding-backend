@@ -19,6 +19,8 @@ public interface JobPostingRepository extends JpaRepository<JobPosting, Long> {
 
     @Query("select j.jobPostingId from JobPosting j where j.company.companyId = :companyId" +
             " and j.jobPostingId != :jobPostingId")
-    List<Long> findByCompany_CompanyId(Long companyId, Long jobPostingId);
+    List<Long> findByCompany_CompanyIdOtherJobPosting(Long companyId, Long jobPostingId);
 
+
+    JobPosting findByCompany_CompanyId(Long companyId);
 }

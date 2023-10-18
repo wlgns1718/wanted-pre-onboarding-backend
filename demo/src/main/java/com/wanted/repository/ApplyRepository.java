@@ -11,4 +11,5 @@ public interface ApplyRepository extends JpaRepository<Apply,Long> {
 
 
     Apply findByUser_UserIdAndJobPosting_JobPostingId(Long userid, Long jobPostingId);
+
 }
